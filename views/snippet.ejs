@@ -1,0 +1,26 @@
+<%- include('partials/head', { title: snippet.title }) %>
+<article class="snippet-detail">
+  <div class="detail-head">
+    <h1><%= snippet.title %></h1>
+    <div class="detail-actions">
+      <a class="btn btn-small btn-ghost" href="/snippets/<%= snippet.id %>/raw" target="_blank">查看原文</a>
+      <button class="btn btn-small" id="copy-btn" data-id="<%= snippet.id %>">复制代码</button>
+    </div>
+  </div>
+  <div class="detail-meta">
+    <span class="badge"><%= languageLabel %></span>
+    <span>作者：<%= snippet.author %></span>
+    <span>浏览：<%= snippet.views %></span>
+    <span><%= new Date(snippet.createdAt).toLocaleString('zh-CN') %></span>
+  </div>
+  <% if (snippet.description) { %><p class="detail-desc"><%= snippet.description %></p><% } %>
+  <% if (snippet.tags.length) { %>
+    <div class="tag-list">
+      <% snippet.tags.forEach(function (tag) { %><a class="tag" href="/search?q=<%= encodeURIComponent(tag) %>"><%= tag %></a><% }) %>
+    </div>
+  <% } %>
+  <div class="code-wrapper">
+    <%- highlighted %>
+  </div>
+</article>
+<%- include('partials/foot') %>

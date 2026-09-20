@@ -1,14 +1,33 @@
 {
   "name": "code-sharing-platform",
   "version": "1.0.0",
-  "description": "代码分享平台（code-sharing-platform）",
+  "description": "代码分享平台：AST 语法高亮、正则/模糊搜索、接口限流（Node.js + Express + SQLite）",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "seed": "node scripts/seed.js"
   },
-  "keywords": [],
+  "keywords": [
+    "code-sharing",
+    "express",
+    "sqlite",
+    "tree-sitter",
+    "highlight",
+    "fuzzy-search",
+    "regex",
+    "rate-limit"
+  ],
   "author": "",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "fuse.js": "^7.5.0",
+    "helmet": "^8.3.0",
+    "tree-sitter-wasms": "^0.1.13",
+    "web-tree-sitter": "^0.20.8"
+  }
 }

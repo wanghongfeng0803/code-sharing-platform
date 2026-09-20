@@ -1,0 +1,55 @@
+<%- include('partials/head', { title: '分享代码' }) %>
+<section class="form-section">
+  <h1>分享一段代码</h1>
+  <% if (errors && errors.length) { %>
+    <div class="alert alert-error">
+      <ul>
+        <% errors.forEach(function (e) { %><li><%= e %></li><% }) %>
+      </ul>
+    </div>
+  <% } %>
+  <form id="snippet-form">
+    <div class="form-row">
+      <label for="title">标题 <span class="req">*</span></label>
+      <input type="text" id="title" name="title" maxlength="200" required
+             value="<%= form.title || '' %>" placeholder="例如：快速排序的 Python 实现">
+    </div>
+    <div class="form-row form-row-2">
+      <div>
+        <label for="author">作者</label>
+        <input type="text" id="author" name="author" maxlength="80"
+               value="<%= form.author || '' %>" placeholder="匿名">
+      </div>
+      <div>
+        <label for="language">语言 <span class="req">*</span></label>
+        <select id="language" name="language">
+          <% languages.forEach(function (lang) { %>
+            <option value="<%= lang.id %>" <%= form.language === lang.id ? 'selected' : '' %>><%= lang.label %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="description">简介</label>
+      <input type="text" id="description" name="description" maxlength="500"
+             value="<%= form.description || '' %>" placeholder="一句话说明这段代码的用途">
+    </div>
+    <div class="form-row">
+      <label for="tags">标签</label>
+      <input type="text" id="tags" name="tags"
+             value="<%= Array.isArray(form.tags) ? form.tags.join(',') : (form.tags || '') %>"
+             placeholder="多个标签用逗号分隔，例如：算法, 排序, python">
+    </div>
+    <div class="form-row">
+      <label for="content">代码 <span class="req">*</span></label>
+      <textarea id="content" name="content" rows="18" spellcheck="false"
+                placeholder="把代码粘贴到这里（最多 100,000 字符）" required><%= form.content || '' %></textarea>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn">发布</button>
+      <a class="btn btn-ghost" href="/">取消</a>
+      <span id="form-message" class="form-message"></span>
+    </div>
+  </form>
+</section>
+<%- include('partials/foot') %>

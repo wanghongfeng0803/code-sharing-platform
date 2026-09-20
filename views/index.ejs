@@ -1,0 +1,97 @@
+<%- include('partials/head', { title: '代码分享平台' }) %>
+
+<section class="search-section">
+  <form id="search-form" method="get" action="/search" class="search-bar">
+    <input type="text" id="search-input" name="q"
+           value="<%= query.q || '' %>"
+           placeholder="搜索标题、描述、标签、作者或代码内容…" autocomplete="off">
+    <select name="mode" id="search-mode">
+      <option value="plain" <%= query.mode === 'plain' ? 'selected' : '' %>>精确子串</option>
+      <option value="fuzzy" <%= query.mode === 'fuzzy' ? 'selected' : '' %>>模糊匹配</option>
+      <option value="regex" <%= query.mode === 'regex' ? 'selected' : '' %>>正则表达式</option>
+    </select>
+    <select name="language" id="search-language">
+      <option value="">全部语言</option>
+      <% languages.forEach(function (lang) { %>
+        <option value="<%= lang.id %>" <%= query.language === lang.id ? 'selected' : '' %>><%= lang.label %></option>
+      <% }) %>
+    </select>
+    <label class="case-toggle" title="区分大小写（仅正则模式生效）">
+      <input type="checkbox" name="sensitive" value="true" <%= query.sensitive ? 'checked' : '' %>> Aa
+    </label>
+    <button type="submit" class="btn">搜索</button>
+  </form>
+  <% if (searchError) { %>
+    <p class="alert alert-error" id="search-error"><%= searchError %></p>
+  <% } %>
+  <p class="search-hint">
+    模糊模式容忍拼写误差；正则模式支持完整 JavaScript 正则语法（沙箱执行，超时自动终止）。
+  </p>
+</section>
+
+<% if (typeof searched !== 'undefined' && searched) { %>
+<section class="results-section">
+  <h2>搜索结果 <span class="muted">（<%= searchResults.length %> 条命中，扫描 <%= scanned %> 条）<%= truncated ? ' · 结果已截断' : '' %></span></h2>
+  <div id="search-results">
+    <% if (searchResults.length === 0 && !searchError) { %>
+      <p class="empty">没有找到匹配的代码片段，换个关键词试试。</p>
+    <% } %>
+    <% searchResults.forEach(function (item) { %>
+      <article class="snippet-card">
+        <div class="snippet-card-head">
+          <a class="snippet-title" href="/snippets/<%= item.id %>"><%= item.title %></a>
+          <span class="badge"><%= item.language %></span>
+        </div>
+        <% if (item.description) { %><p class="snippet-desc"><%= item.description %></p><% } %>
+        <% if (item.matches && item.matches.length) { %>
+          <ul class="match-list">
+            <% item.matches.forEach(function (m) { %>
+              <li><span class="match-field"><%= m.field %></span> <code><%= m.excerpt %></code></li>
+            <% }) %>
+          </ul>
+        <% } %>
+        <div class="snippet-meta">
+          <span><%= item.author || '匿名' %></span>
+          <span>👁 <%= item.views %></span>
+          <span><%= new Date(item.created_at).toLocaleString('zh-CN') %></span>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+</section>
+<% } else { %>
+<section class="list-section">
+  <h2>最新代码 <span class="muted">（共 <%= total %> 条）</span></h2>
+  <% if (snippets.length === 0) { %>
+    <div class="empty-state">
+      <p>还没有任何代码片段，来分享第一段吧！</p>
+      <a class="btn" href="/new">立即分享</a>
+    </div>
+  <% } %>
+  <div class="snippet-grid">
+    <% snippets.forEach(function (snippet) { %>
+      <article class="snippet-card">
+        <div class="snippet-card-head">
+          <a class="snippet-title" href="/snippets/<%= snippet.id %>"><%= snippet.title %></a>
+          <span class="badge"><%= snippet.language %></span>
+        </div>
+        <% if (snippet.description) { %><p class="snippet-desc"><%= snippet.description %></p><% } %>
+        <div class="snippet-meta">
+          <span><%= snippet.author %></span>
+          <span>👁 <%= snippet.views %></span>
+          <span><%= new Date(snippet.createdAt).toLocaleString('zh-CN') %></span>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+
+  <% if (totalPages > 1) { %>
+  <nav class="pagination">
+    <% if (page > 1) { %><a href="/?page=<%= page - 1 %>">« 上一页</a><% } %>
+    <span>第 <%= page %> / <%= totalPages %> 页</span>
+    <% if (page < totalPages) { %><a href="/?page=<%= page + 1 %>">下一页 »</a><% } %>
+  </nav>
+  <% } %>
+</section>
+<% } %>
+<%- include('partials/foot') %>

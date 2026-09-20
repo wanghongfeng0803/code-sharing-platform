@@ -1,0 +1,7 @@
+<%- include('partials/head', { title: title || '出错了' }) %>
+<section class="error-box">
+  <h1><%= status || 500 %></h1>
+  <p><%= message || '服务器内部错误' %></p>
+  <a class="btn" href="/">返回首页</a>
+</section>
+<%- include('partials/foot') %>
