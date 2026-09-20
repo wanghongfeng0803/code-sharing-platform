@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>代码分享平台</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#/" href-alt="/">
+        <span class="brand-mark">&lt;/&gt;</span>
+        <span>CodeShare</span>
+      </a>
+      <nav class="nav">
+        <a href="#/" data-nav="home">片段列表</a>
+        <a href="#/new" data-nav="new" class="btn-primary btn-small">+ 新建片段</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <!-- 视图由 JS 渲染 -->
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>Node.js + Express + SQLite · Tree-sitter AST 语法高亮</span>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/js/app.js"></script>
+</body>
+</html>
