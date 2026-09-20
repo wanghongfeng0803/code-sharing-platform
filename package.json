@@ -1,0 +1,14 @@
+{
+  "name": "code-sharing-platform",
+  "version": "1.0.0",
+  "description": "代码分享平台（code-sharing-platform）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {}
+}
